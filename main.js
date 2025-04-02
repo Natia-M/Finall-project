@@ -19,3 +19,44 @@ function sliderFn() {
 }
 
 sliderFn();
+// first section//
+document.addEventListener("DOMContentLoaded", () => {
+  const progressBars = document.querySelectorAll(".progress");
+
+  function fillProgressBars() {
+    progressBars.forEach((bar) => {
+      const percentage = bar.getAttribute("data-percentage");
+      const barPosition = bar.getBoundingClientRect().top;
+      const screenPosition = window.innerHeight / 1.2;
+
+      if (barPosition < screenPosition) {
+        bar.style.width = percentage + "%";
+      }
+    });
+  }
+
+  window.addEventListener("scroll", fillProgressBars);
+});
+// section 4//
+const slides = document.querySelectorAll(".slide-2");
+const dots = document.querySelectorAll(".dot");
+let currentSlide = 0;
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.remove("show-2");
+    dots[i].classList.remove("active");
+  });
+
+  slides[index].classList.add("show-2");
+  dots[index].classList.add("active");
+}
+
+dots.forEach((dot) => {
+  dot.addEventListener("click", () => {
+    currentSlide = parseInt(dot.getAttribute("data-slide"));
+    showSlide(currentSlide);
+  });
+});
+
+showSlide(currentSlide);
