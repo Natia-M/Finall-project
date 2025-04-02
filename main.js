@@ -60,3 +60,79 @@ dots.forEach((dot) => {
 });
 
 showSlide(currentSlide);
+//section 5//
+function filterProjects(category) {
+  let projects = document.querySelectorAll(".project");
+  let buttons = document.querySelectorAll(".sidebar button");
+  buttons.forEach((btn) => btn.classList.remove("selected"));
+
+  let activeButton = document.querySelector(
+    `.sidebar button[onclick="filterProjects('${category}')"]`
+  );
+  if (activeButton) activeButton.classList.add("selected");
+
+  projects.forEach((project) => {
+    if (category === "all") {
+      project.classList.remove("hidden");
+    } else {
+      if (project.classList.contains(category)) {
+        project.classList.remove("hidden");
+      } else {
+        project.classList.add("hidden");
+      }
+    }
+  });
+}
+//section 6 //
+document.querySelectorAll(".team-box").forEach((box) => {
+  box.addEventListener("mouseenter", () => {
+    box.querySelector(".team-inner").style.transform = "rotateY(180deg)";
+  });
+
+  box.addEventListener("mouseleave", () => {
+    box.querySelector(".team-inner").style.transform = "rotateY(0deg)";
+  });
+});
+//section 7 //
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("contactForm");
+  const modal = document.getElementById("successModal");
+  const closeButton = document.querySelector(".close");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const website = document.getElementById("website").value;
+    const message = document.getElementById("message").value;
+
+    fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, website, message }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        modal.style.display = "flex";
+        form.reset();
+      })
+      .catch((error) => {
+        alert("Error sending message!");
+      });
+  });
+
+  closeButton.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  modal.style.display = "none";
+});
