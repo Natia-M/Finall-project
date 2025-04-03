@@ -106,18 +106,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.getElementById("email").value;
     const website = document.getElementById("website").value;
     const message = document.getElementById("message").value;
-
+    const requestData = {
+      title: name,
+      body: `${email}, ${website}, ${message}`,
+      userId: 1,
+    };
     fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email, website, message }),
+      body: JSON.stringify(requestData),
     })
       .then((response) => response.json())
       .then((data) => {
-        modal.style.display = "flex";
-        form.reset();
+        data = { desc: "Message has been sent successfully", status: 1 };
+
+        if (
+          data.desc === "Message has been sent successfully" &&
+          data.status === 1
+        ) {
+          modal.style.display = "flex";
+          form.reset();
+        } else {
+          alert("Error: Unexpected response from server.");
+        }
       })
       .catch((error) => {
         alert("Error sending message!");

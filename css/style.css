@@ -5,7 +5,7 @@
 }
 /* general stylees */
 body {
-  max-width: fit-content;
+  max-width: 100%;
 }
 .grey {
   color: #555555;
